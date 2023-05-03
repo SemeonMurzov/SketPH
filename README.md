@@ -1,8 +1,10 @@
 # SketPH
-SketPH is a smoothed particle hydrodynamics code with a purpose of sketching.
- 
-#run code 
+SketPH is a smoothed particle hydrodynamics code with a purpose of sketching
+
+
+# run code 
 add to the PYTHONPATH export PYTHONPATH=/path/to/the/folder/which/contains/sketph/folder/:${PYTHONPATH}
+
 python simulation.py
 
 
