@@ -1,0 +1,1 @@
+from .elidplhug import ElasticityIdealPlasticityHugoniot
