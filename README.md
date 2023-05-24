@@ -1,12 +1,12 @@
 # SketPH
-Coming soon... 
+
 SketPH is a smoothed particle hydrodynamics code with a purpose of sketching
 
 
 # run code 
 add to the PYTHONPATH export PYTHONPATH=/path/to/the/folder/which/contains/sketph/folder/:${PYTHONPATH}
 
-python simulation.py
+python run-AMW.py
 
 
 The purpose of this program is to be used to verify the simulation techniques. 
@@ -39,4 +39,4 @@ field - this class introduces variables with the names of the data fields contai
 neibs - contains the hash-map to make a neighbours lists 
 solveSpace - a right-hand size of evolution equations to compute gradients 
 solveTime - makes a time stepping model - implements a material equation of state 
-Simulation.py - run a sod problem example in copper with Hugoniot eos (TODO elastpolastic test).
+run-AMW.py - run adaptive moving window simulation to obtain stationary shock waves using Hugoniot eos, perfectily plastic copper flow and feedback algorithm of a coordinate system velocity adaptation. 
