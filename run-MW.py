@@ -18,7 +18,7 @@ from sketph.solveTime.euler import TimeStepper
 from sketph.solveTime.conditionInOut import stepperAMW
 from sketph.io.png.plotter import Plot
 from sketph.feed import insertSorted
-from sketph.feedback.AMW import AMW
+from sketph.feedback.MW import MW
 """
 A sequence of classes the computational algorithm:
 contains simulation box parameters and it's boundary conditions type.
@@ -79,7 +79,7 @@ yMax = maxDim
 # velocity change in a shock wave
 up = -1000
 # outflow velocity
-upOut = -1000
+upOut = -4250
 # inflow velocity
 upIn = up+upOut
 # global (all) particles velocity change
@@ -160,14 +160,14 @@ SPHstepper = TimeStepper(
 # pre- and post- step corrections
 stepper = stepperAMW(coreStepper = SPHstepper)
 
-# adaptive moving window constructor
-adaptiveMovingWindow = AMW(box = sample, dirname = "logAMW", 
+# moving window constructor
+MovingWindow = MW(box = sample, dirname = "logAMW", 
 								nStartBuffer = nStartBuffer,
 				   frontPositionCoef = frontPositionCoef, up=up,
 				   			  target = 1, sigmaWish = sigmaWish)
 time = 0.0
 nSteps = 0
-nstepsOut = 100
+nstepsOut = 10
 endStep = 2000+nSteps
 nstepUpdate = 2
 
@@ -186,8 +186,6 @@ if not scatter and plots:
 	plot = Plot(particles, figsize=(12,8))
 
 while nSteps < endStep:
-	if adaptiveMovingWindow.mimicry:
-		nstepsOut=20
 
 	if nSteps<100:
 		CFL = 0.25 
@@ -206,7 +204,7 @@ while nSteps < endStep:
 			xLast, sliceIndex, xInsert = insertSorted.feed(particles, neibsTable, upIn, xInsert, 
 						 inflowSample=inflowSample, firstInsertIndex=sliceIndex, xStart = xLast,
 						 boxInflowPeriod=2*maxDim, inflowWindowPosition=inflowPosition)
-	deltaUpGlobal = adaptiveMovingWindow(particles, time, upIn, upOut, dt, nSteps)
+	upOut = MovingWindow(particles, time, upIn, upOut, dt, nSteps)
 	idelete = np.where(particles[field.coords][:,0]<xMWOut)
 	if idelete[0].size>0:
 		# return the indexes of particle which are passive now
@@ -221,11 +219,6 @@ while nSteps < endStep:
 	if nSteps%nstepUpdate == 0:
 		neibsTable.checkUpdate(particles)
 
-	if deltaUpGlobal!=0:
-		particles[field.velocity][:,0] += deltaUpGlobal
-		upIn += deltaUpGlobal
-		upOut += deltaUpGlobal
-		deltaUpGlobal = 0
 
 	time  += dt
 	nSteps+= 1
