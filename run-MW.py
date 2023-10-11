@@ -161,7 +161,7 @@ SPHstepper = TimeStepper(
 stepper = stepperAMW(coreStepper = SPHstepper)
 
 # moving window constructor
-MovingWindow = MW(box = sample, dirname = "logAMW", 
+MovingWindow = MW(box = sample, dirname = "logMW", 
 								nStartBuffer = nStartBuffer,
 				   frontPositionCoef = frontPositionCoef, up=up,
 				   			  target = 1, sigmaWish = sigmaWish)

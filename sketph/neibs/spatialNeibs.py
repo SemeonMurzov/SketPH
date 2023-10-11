@@ -16,7 +16,7 @@ class SpatialNeibs:
 			box = Box(),
 			particles  = Storage(fields = [field.coords, field.size]), 
 			smoothingScale = 1.0,
-			buf = 2.8 ):
+			buf = 2.8):
 		self.IndexAxis = {0:"x",1:"y"}
 		self.box = box
 		self.ss  = smoothingScale
@@ -144,4 +144,5 @@ class SpatialNeibs:
 			while node is not None:
 				yield node.id
 				node = node.next
+
 

@@ -50,4 +50,4 @@ class TimeStepper:
 		particles[field.deviatorStress][:,2]  = particles[field.deviatorStress][:,1]
 		particles[field.deviatorStress][:,3]  = stressDeviator[:,3]-2*omegadt*stressDeviator[:,1]\
  																	+omegadt2*stressDeviator[:,0]
-		particles[field.size][:,0] = np.sqrt(particles[field.mass][:]/particles[field.density][:])
+		particles[field.size][:] = np.sqrt(particles[field.mass][:]/particles[field.density][:])
